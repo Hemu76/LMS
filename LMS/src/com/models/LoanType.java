@@ -6,7 +6,7 @@ import javax.persistence.Table;
 @Embeddable
 @Table(name = "H_loantypes")
 public class LoanType {
-	private int lnty_id;
+	private Integer lnty_id;
 	private String lnty_name;
 	private String lnty_desc;
 
@@ -16,7 +16,7 @@ public class LoanType {
 		// Default constructor
 	}
 
-	public LoanType(int lnty_id, String lnty_name, String lnty_desc) {
+	public LoanType(Integer lnty_id, String lnty_name, String lnty_desc) {
 		this.lnty_id = lnty_id;
 		this.lnty_name = lnty_name;
 		this.lnty_desc = lnty_desc;
@@ -24,11 +24,11 @@ public class LoanType {
 
 	// Getter and Setter methods
 
-	public int getLnty_id() {
+	public Integer getLnty_id() {
 		return lnty_id;
 	}
 
-	public void setLnty_id(int lnty_id) {
+	public void setLnty_id(Integer lnty_id) {
 		this.lnty_id = lnty_id;
 	}
 

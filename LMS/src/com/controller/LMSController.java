@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,21 +30,29 @@ public class LMSController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/savenewc", method = RequestMethod.POST)
-	public String saveNewC(@Validated Customer c, Model model) {
+	@RequestMapping(value = "/sss", method = RequestMethod.GET)
+	public String save(@Validated Customer c,@Validated LoanApplication l,@Validated LoanApplicantNominee n, Model model) {
+		System.out.println("hiii");
+		model.addAttribute("c",c);
+		model.addAttribute("l",l);
+		model.addAttribute("n",n);
+		return "preview";
+	}
+	@RequestMapping(value = "/ld", method = RequestMethod.GET)
+	public String sendLoanDetails(Model m) {
+		ArrayList<LoanApplication> al=(ArrayList<LoanApplication>) dao.listAll();
+		m.addAttribute("ld",al);
+		return "loandetails";
+	}
+	@RequestMapping(value = "/savenew", method = RequestMethod.GET)
+	public String saveNew(@Validated Customer c,@Validated LoanApplication l,@Validated LoanApplicantNominee n, Model model) {
+		System.out.println(c.toString());
+		System.out.println(l.toString());
+		System.out.println(n.toString());
 		dao.addC(c);
-		return "success";
-	}
-
-	@RequestMapping(value = "/savenewa", method = RequestMethod.POST)
-	public String saveNewA(@Validated LoanApplication l, Model model) {
 		dao.addLa(l);
-		return "success";
-	}
-
-	@RequestMapping(value = "/savenewn", method = RequestMethod.POST)
-	public String saveNewN(@Validated LoanApplicantNominee n, Model model) {
 		dao.addN(n);
-		return "success";
+		return "personaldetails";
 	}
+	
 }

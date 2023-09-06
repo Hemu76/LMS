@@ -1,6 +1,7 @@
 package com.models;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ public class LoanApplication {
 	private Integer lnap_id;
 	private Integer lnap_cust_id;
 	private Date lnap_apdate;
-	private String lnap_lnty_id;
+	private BigDecimal lnap_lnty_id;
 	private double lnap_amount;
 	private double lnap_emi_range_from;
 	private double lnap_emi_range_to;
@@ -50,15 +51,15 @@ public class LoanApplication {
 		return lnap_apdate;
 	}
 
-	public void setLnap_apdate(Date lnap_apdate) {
-		this.lnap_apdate = lnap_apdate;
+	public void setLnap_apdate(String lnap_apdate) {
+		this.lnap_apdate = Date.valueOf(lnap_apdate);
 	}
 
-	public String getLnap_lnty_id() {
+	public BigDecimal getLnap_lnty_id() {
 		return lnap_lnty_id;
 	}
 
-	public void setLnap_lnty_id(String lnap_lnty_id) {
+	public void setLnap_lnty_id(BigDecimal lnap_lnty_id) {
 		this.lnap_lnty_id = lnap_lnty_id;
 	}
 
@@ -130,7 +131,18 @@ public class LoanApplication {
 		return lnap_processed_Date;
 	}
 
-	public void setLnap_processed_Date(Date lnap_processed_Date) {
-		this.lnap_processed_Date = lnap_processed_Date;
+	public void setLnap_processed_Date(String lnap_processed_Date) {
+		this.lnap_processed_Date = Date.valueOf(lnap_processed_Date);
 	}
+
+	@Override
+	public String toString() {
+		return "LoanApplication [lnap_id=" + lnap_id + ", lnap_cust_id=" + lnap_cust_id + ", lnap_apdate=" + lnap_apdate
+				+ ", lnap_lnty_id=" + lnap_lnty_id + ", lnap_amount=" + lnap_amount + ", lnap_emi_range_from="
+				+ lnap_emi_range_from + ", lnap_emi_range_to=" + lnap_emi_range_to + ", lnap_nom_requested="
+				+ lnap_nom_requested + ", lnap_cibil_Score=" + lnap_cibil_Score + ", lnap_status=" + lnap_status
+				+ ", lnap_conclusion_remarks=" + lnap_conclusion_remarks + ", lnap_processed_user="
+				+ lnap_processed_user + ", lnap_processed_Date=" + lnap_processed_Date + "]";
+	}
+	
 }

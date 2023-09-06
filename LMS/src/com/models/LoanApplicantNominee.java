@@ -1,5 +1,6 @@
 package com.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,7 +9,8 @@ import javax.persistence.Table;
 @Table(name = "H_loanApplicantsNominees")
 public class LoanApplicantNominee {
 	@Id
-	private int lnap_id;
+	@Column(name="lnap_id")
+	private Integer lnap_idd;
 	private String lnap_nominee;
 	private String lanp_relation;
 
@@ -18,20 +20,20 @@ public class LoanApplicantNominee {
 		// Default constructor
 	}
 
-	public LoanApplicantNominee(int lnap_id, String lnap_nominee, String lanp_relation) {
-		this.lnap_id = lnap_id;
+	public LoanApplicantNominee(Integer lnap_idd, String lnap_nominee, String lanp_relation) {
+		this.lnap_idd = lnap_idd;
 		this.lnap_nominee = lnap_nominee;
 		this.lanp_relation = lanp_relation;
 	}
 
 	// Getter and Setter methods
 
-	public int getLnap_id() {
-		return lnap_id;
+	public Integer getLnap_id() {
+		return lnap_idd;
 	}
 
-	public void setLnap_id(int lnap_id) {
-		this.lnap_id = lnap_id;
+	public void setLnap_id(Integer lnap_idd) {
+		this.lnap_idd = lnap_idd;
 	}
 
 	public String getLnap_nominee() {
@@ -48,5 +50,11 @@ public class LoanApplicantNominee {
 
 	public void setLanp_relation(String lanp_relation) {
 		this.lanp_relation = lanp_relation;
+	}
+
+	@Override
+	public String toString() {
+		return "LoanApplicantNominee [lnap_id=" + lnap_idd + ", lnap_nominee=" + lnap_nominee + ", lanp_relation="
+				+ lanp_relation + "]";
 	}
 }

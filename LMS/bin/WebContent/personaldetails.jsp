@@ -157,75 +157,49 @@ input[type="number"] {
         </div>
         <div class="form-box">
             <div class="form-part">
-                <form action="sss" id="form-part-1">
-                	<b>Cust id : </b>
-                    <input type="text" name="cust_id" placeholder="Enter FirstName"><br>
+                <form id="form-part-1">
                     <b>FirstName : </b>
-                    <input type="text" name="cust_firstname" placeholder="Enter FirstName"><br>
+                    <input type="text" name="fn" placeholder="Enter FirstName"><br>
                     <b>LastName : </b>
-                    <input type="text" name="cust_lastname" placeholder="Enter Last name"><br>
+                    <input type="text" name="ln" placeholder="Enter Last name"><br>
                     <b>DateOfBirth : </b><br>
-                    <input type="date" name="cust_dob" placeholder="Enter date of birth"><br>
+                    <input type="date" name="dob" placeholder="Enter date of birth"><br>
                     <b>Pancard No : </b>
-                    <input type="text" name="cust_panno" placeholder="Enter pancard number"><br>
+                    <input type="text" name="pan" placeholder="Enter pancard number"><br>
                     <b>Mobile Number : </b><br>
-                    <input type="tel" name="cust_mobile" placeholder="Enter mobile number"><br>
+                    <input type="tel" name="mbn" placeholder="Enter mobile number"><br>
                     <b>Address : </b>
-                    <input type="text" name="cust_address" placeholder="Enter address"><br>
+                    <input type="text" name="addr" placeholder="Enter address"><br>
                     <b>Guardian Name : </b>
-                    <input type="text" name="cust_gname" placeholder="Enter guardian name"><br>
-                    <b>Luu Date : </b>
-                    <input type="date" name="cust_luudate" placeholder="Enter guardian name"><br>
-                    <b>last user: </b>
-                    <input type="text" name="cust_luser" placeholder="Enter guardian name"><br>
+                    <input type="text" name="gn" placeholder="Enter guardian name"><br>
                     <button class="form-button" type="button" onclick="nextTab(0)">Next</button>
-                
+                </form>
             </div>
             <div class="form-part" style="display: none;">
                 <h2>Loan Details</h2>
-               
-                   <b>lnap id : </b>
-                    <input type="text" name="lnap_id" placeholder="Enter FirstName"><br>
-                    <b>lnap cid : </b>
-                    <input type="text" name="lnap_cust_id" placeholder="Enter FirstName"><br>
-                    <b>lnap apdate : </b>
-                    <input type="date" name="lnap_apdate" placeholder="Enter Last name"><br>
-                    <b>lnap inty id : </b><br>
-                    <input type="text" name="lnap_lnty_id" placeholder="Enter date of birth"><br>
-                    <b>lnap amt : </b>
-                    <input type="text" name="lnap_amount" placeholder="Enter pancard number"><br>
-                    <b>lnap emi range from : </b><br>
-                    <input type="tel" name="lnap_emi_range_from" placeholder="Enter mobile number"><br>
-                    <b>lnap emi range to : </b>
-                    <input type="text" name="lnap_emi_range_to" placeholder="Enter address"><br>
-                    <b>lnap nom req : </b>
-                    <input type="text" name="lnap_nom_requested" placeholder="Enter guardian name"><br>
-                    <b>cibil score : </b>
-                    <input type="text" name="lnap_cibil_Score" placeholder="Enter guardian name"><br>
-                    <b>ln status: </b>
-                    <input type="text" name="lnap_status" placeholder="Enter guardian name"><br>
-                    <b>ln con remarks: </b>
-                    <input type="text" name="lnap_conclusion_remarks" placeholder="Enter guardian name"><br>
-                    <b>ln pro user: </b>
-                    <input type="text" name="lnap_processed_user" placeholder="Enter guardian name"><br>
-                    <b>ln pro date: </b>
-                    <input type="date" name="lnap_processed_Date" placeholder="Enter guardian name"><br>
+                <form id="form-part-2">
+                    <b>Loan Type : </b>
+                    <input type="text" name="ltype" placeholder="Enter Loan Type"><br>
+                    <b>Loan Amount : </b>
+                    <input type="number" name="lamt" placeholder="Enter Loan Amount"><br>
+                    <b>Minimum EMI amount : </b>
+                    <input type="number" name="lbemi" placeholder="Enter minimum EMI Amount"><br>
+                    <b>Maximum EMI amount : </b>
+                    <input type="number" name="lhemi" placeholder="Enter maximum EMI Amount"><br>
+                    <b>Number Of Nominee : </b>
+                    <input type="number" name="ln" placeholder="Enter nominee count"><br>
                     <button type="button" onclick="nextTab(1)">Next</button>
                     <button type="button" onclick="prevTab(1)">Previous</button>
-                
+                </form>
             </div>
             <div class="form-part" style="display: none;">
                 <h2>Nominee Details</h2>
-               
-                    <b>lnap id : </b>
-                    <input type="text" name="lnap_idd" placeholder="Enter FirstName"><br>
-                    <b>lnap nominee : </b>
-                    <input type="text" name="lnap_nominee" placeholder="Enter FirstName"><br>
-                    <b>lnap relation : </b>
-                    <input type="text" name="lanp_relation" placeholder="Enter Last name"><br>
+                <form id="form-part-3">
+                    <input type="text" name="field5" placeholder="Field 5"><br>
+                    <input type="text" name="field6" placeholder="Field 6"><br>
                     <button class="form-button" type="button" onclick="prevTab(2)">Previous</button>
-                    <button class="form-button" type="submit">Preview</button>
-               </form>
+                    <button class="form-button" type="submit">Submit</button>
+                </form>
             </div>
         </div>
     </div>
