@@ -38,6 +38,11 @@ public class AppService {
 	}
 
 	@Transactional
+	public void update(LoanApplication la) {
+		serv.updaid(la);
+	}
+
+	@Transactional
 	public void addAll(Collection<LoanApplication> laa) {
 		for (LoanApplication la : laa) {
 			serv.persist(la);
