@@ -286,29 +286,53 @@ input[type="number"] {
                     <button class="form-button" type="button" onclick="nextTab(0)">Next</button>
                 
             </div>
-            <div class="form-part" style="display: none;">
-                <h2>Loan Details</h2>
-    <b>lnap cid : </b>
-    <input type="text" id="lnap_cust_id" name="lnap_cust_id" placeholder="Enter cid"><br>
-    <b>lnap apdate : </b>
-    <input type="date" id="lnap_apdate" name="lnap_apdate" placeholder="Enter date"><br>
-    <b>lnap inty id : </b><br>
-    <input type="text" id="lnap_lnty_id" value="1" name="lnap_lnty_id" placeholder="Enter id"><br>
-    <b>lnap amt : </b>
-    <input type="text" id="lnap_amount" name="lnap_amount" placeholder="Enter amt"><br>
-    <b>lnap emi : </b><br>
-    <input type="tel" id="lnap_emi_range_from" name="lnap_emi" placeholder="Enter emi"><br>
-    <b>lnap nom req : </b>
-    <input type="text" id="lnap_nom_requested" name="lnap_nom_requested" placeholder="Enter months req"><br>
-    <b>cibil score : </b>
-    <input type="text" id="lnap_cibil_Score" name="lnap_cibil_Score" placeholder="Enter cibil score"><br>
-                    <button type="button" onclick="nextTab(1)">Next</button>
-                    <button type="button" onclick="prevTab(1)">Previous</button>          
+ 
+  <div class="form-part" style="display: none;">               
+               
+               		 <h2>Loan Details</h2>
+               
+					<a href="loanEligibility.jsp">Check Loan Eligibility</a><br><br>             
+               
+                    <b >Loan Type : Personal</b><br><br>
+              		<input type="hidden" name="lnap_amount" value="<%= request.getParameter("loanAmount")%>"> 
+              		<input type="hidden" name="lnap_emi" value="<%= request.getParameter("emiAmount")%>"> 
+              		<input type="hidden" name="lnap_nom_requested" value="<%=request.getParameter("months") %>"> 
+                    <b>Loan Amount : </b><b id="lnap_amount" name="lnap_amount"><%= request.getParameter("loanAmount")%></b><br><br>
+                    <b>EMI Amount : </b>
+                    <b id="lnap_emi_range_from" name="lnap_emi_range_from" "><%= request.getParameter("emiAmount")%></b><br><br>
+                    <b>Number of Months : </b>
+                    <b id="lnap_nom_requested" name="lnap_nom_requested"><%=request.getParameter("months") %></b><br>
+                    
+                    <a href="emiSchedule.jsp?emiAmt=<%= request.getParameter("emiAmount") %>&months=<%= request.getParameter("months") %>">Check EMI Schedule</a><br><br> <br>
+  					  <b>lnap apdate : </b>
+  					  <input type="date" id="lnap_apdate" name="lnap_apdate" placeholder="Enter date"><br>
+  					  <b>lnap loantype id : </b><br>
+   						 <input type="text" id="lnap_lnty_id" value="1" name="lnap_lnty_id" placeholder="Enter id"><br>
+  						 
+                    
+                    
+                    
+                    <b>cibil score : </b>
+                    <input type="number" id="lnap_cibil_Score" name="lnap_cibil_Score" placeholder="Enter cibil score"><br>
+                    <button type="button" onclick="nextTab(1)" style="background-color: green;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;">Next</button>
+                    <button type="button" onclick="prevTab(1)" style="background-color: green;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;">Previous</button>
+                
             </div>
             <div class="form-part" style="display: none;">
                 <h2>Nominee Details</h2>
-    <b>lnap id : </b>
-    <input type="text" id="lnap_idd" name="lnap_id" placeholder="Enter FirstName"><br>
+    
     <b>lnap nominee : </b>
     <input type="text" id="lnap_nominee" name="lnap_nominee" placeholder="Enter FirstName"><br>
     <b>lnap relation : </b>
@@ -358,11 +382,6 @@ input[type="number"] {
     </div>
 
     <div>
-        <h3>l_c_id:</h3>
-        <p id="l_c_id"></p>
-    </div>
-
-    <div>
         <h3>l_ap_date:</h3>
         <p id="l_ap_date"></p>
     </div>
@@ -392,10 +411,6 @@ input[type="number"] {
         <p id="cibil_score"></p>
     </div>
 
-    <div>
-        <h3>lp_id:</h3>
-        <p id="lp_id"></p>
-    </div>
 
     <div>
         <h3>lp_nominee:</h3>
@@ -433,21 +448,20 @@ input[type="number"] {
         	var cust_gname = document.getElementById("cust_gname").value;
 
         	
-        	var lnap_cust_id = document.getElementById("lnap_cust_id").value;
+        	
         	var lnap_apdate = document.getElementById("lnap_apdate").value;
         	var lnap_lnty_id = document.getElementById("lnap_lnty_id").value;
-        	var lnap_amount = document.getElementById("lnap_amount").value;
-        	var lnap_emi_range_from = document.getElementById("lnap_emi_range_from").value;
+        	var lnap_amount = document.querySelector("#lnap_amount").textContent;
+        	var lnap_emi_range_from = document.querySelector("#lnap_emi_range_from").textContent;
         	
-        	var lnap_nom_requested = document.getElementById("lnap_nom_requested").value;
+        	var lnap_nom_requested = document.querySelector("#lnap_nom_requested").textContent;
         	var lnap_cibil_Score = document.getElementById("lnap_cibil_Score").value;
 
-        	var lnap_idd = document.getElementById("lnap_idd").value;
         	var lnap_nominee = document.getElementById("lnap_nominee").value;
         	var lanp_relation = document.getElementById("lanp_relation").value;
 
         	// Populate content of certain elements with JavaScript variables
-        
+        	console.log(cust_firstname,cust_lastname,cust_dob,cust_panno,cust_mobile,cust_address,cust_gname,lnap_apdate,lnap_lnty_id,lnap_amount,lnap_emi_range_from,lnap_nom_requested,lnap_cibil_Score,lnap_nominee,lanp_relation);
         	document.getElementById("c_fname").textContent = cust_firstname;
         	document.getElementById("c_lname").textContent = cust_lastname;
         	document.getElementById("c_dob").textContent = cust_dob;
@@ -458,7 +472,7 @@ input[type="number"] {
     
 
         
-        	document.getElementById("l_c_id").textContent = lnap_cust_id;
+        	
         	document.getElementById("l_ap_date").textContent = lnap_apdate;
         	document.getElementById("l_lty_id").textContent = lnap_lnty_id;
         	document.getElementById("l_amt").textContent = lnap_amount;
@@ -467,7 +481,7 @@ input[type="number"] {
         	document.getElementById("l_nom_req").textContent = lnap_nom_requested;
         	document.getElementById("cibil_score").textContent = lnap_cibil_Score;
     
-        	document.getElementById("lp_id").textContent = lnap_idd;
+        	
         	document.getElementById("lp_nominee").textContent = lnap_nominee;
         	document.getElementById("lp_relation").textContent = lanp_relation;
 

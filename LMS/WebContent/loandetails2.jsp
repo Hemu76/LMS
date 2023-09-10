@@ -101,7 +101,6 @@
 </head>
 <body>
 <center>
-
 <h1>Loan Details</h1>
     <!-- Add input field for amount filter -->
  <div class="filter">
@@ -131,16 +130,14 @@
                 <th>conclu rem</th>
                 <th>proce user</th>
                 <th>p date</th>
-                <th>Edit and Save</th>
-                <th>Submit</th>
+                
             </tr>
         </thead>
         <tbody>
-        <% 
-        String user=""+request.getAttribute("un");
-        ArrayList<LoanApplication> al=(ArrayList<LoanApplication>)request.getAttribute("ld");
+        <% ArrayList<LoanApplication> al=(ArrayList<LoanApplication>)request.getAttribute("ld");
             for (LoanApplication l : al) {
-            	if(l.getLnap_status()==null){
+            	if(l.getLnap_status()!=null){
+            	if(l.getLnap_status().equals("RJCD")){
         %>
             <tr>
                 <td><%= l.getLnap_id() %></td>
@@ -151,27 +148,15 @@
                 <td><%= l.getLnap_emi() %></td>
                 <td><%= l.getLnap_nom_requested() %></td>
                 <td><%= l.getLnap_cibil_Score() %></td>
-                <td>INPR</td>
+                <td>RJCD</td>
                 <td><%= l.getLnap_conclusion_remarks() %></td>
                 <td><%= l.getLnap_processed_user() %></td>
                 <td><%= l.getLnap_processed_Date() %></td>
-                <td><button class="edit-button" onclick="toggleEditSave(this)">Edit</button></td>
-                <td>
-                    <form action="id">
-                        <input type="hidden" name="lnap_id" value="<%= l.getLnap_id() %>">
-                        <input type="hidden" name="lnap_status" class="status-input">
-                        <input type="hidden" name="lnap_conclusion_remarks" class="remarks-input">
-                        <input type="hidden" name="lnap_nom_requested" class="lAmtCell-input">
-                        <input type="hidden" name="lnap_processed_user" class="lp-input">
-                        <input type="hidden" name="lnap_processed_Date" class="date-input">
-                        <input class="save-button" type="submit" value="Submit">
-                    </form>
-                </td>
+                
             </tr>
-        <% }} %>
+        <% }} }%>
         </tbody>
     </table>
-    <a href="downloadExcel">Download Excel</a>
 </center>
 <script>
  var lAmtInput;
@@ -229,7 +214,6 @@ function toggleEditSave(row) {
     var status = tableRow.cells[8]; 
     var remarks = tableRow.cells[9]; 
     var cs = tableRow.cells[7];
-    var p_user = tableRow.cells[10];
     var cur_date = tableRow.cells[11];
 
     if (row.textContent === "Edit") {
@@ -253,7 +237,7 @@ function toggleEditSave(row) {
         var day = currentDate.getDate();
 
         cur_date.innerText = year + "-" + month + "-" + day;
-		p_user.innerText="<%=user%>"
+
         row.textContent = "Save";
     } else if (row.textContent === "Save") {
         row.textContent = "Edit";
@@ -264,12 +248,12 @@ function toggleEditSave(row) {
         var remarksInput = tableRow.querySelector(".remarks-input");
         var lAmtCellInput = tableRow.querySelector(".lAmtCell-input");
         var dd = tableRow.querySelector(".date-input");
-        var uuid = tableRow.querySelector(".lp-input");
+
         statusInput.value = status.innerText;
         remarksInput.value = remarks.innerText;
         lAmtCellInput.value = lAmtCell.innerText;
         dd.value = cur_date.innerText;
-		uuid.value=p_user.innerText;
+
         lAmtCell.removeChild(lAmtCell.querySelector("input"));
     }
 }

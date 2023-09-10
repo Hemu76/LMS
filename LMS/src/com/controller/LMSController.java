@@ -1,7 +1,15 @@
 package com.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,15 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.models.Customer;
+import com.models.ExcelClass;
 import com.models.LoanApplicantNominee;
 import com.models.LoanApplication;
+import com.models.Un;
+import com.models.Users;
 import com.service.AppService;
 
 @Controller
 public class LMSController {
 
 	AppService dao;
-
+	
 	@Autowired
 	public LMSController(AppService dao) {
 		this.dao = dao;
@@ -28,6 +39,45 @@ public class LMSController {
 	public String getAllEmployees(Model model) {
 
 		return "login";
+	}
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String adm(HttpServletRequest request,HttpSession session,Model m) 
+	{
+		
+		System.out.println("Entered adminpage.jsp "+request.getParameter("username")+" "+ request.getParameter("password")+" "+ request.getParameter("usertype"));
+ 		if(dao.checkUser(request.getParameter("username"), request.getParameter("password"),request.getParameter("usertype")))
+ 		{
+ 			HttpSession hs = request.getSession();
+ 			hs.setAttribute("uname",request.getParameter("username") );
+ 			hs.setAttribute("pass", request.getParameter("password"));
+ 			UUID uuid = UUID.randomUUID();
+ 	        String randomKey = uuid.toString().replace("-", "");
+ 	        System.out.println("key in controller..."+randomKey);
+ 	        System.out.println("session id and host address is ..."+session.getId()+" "+request.getRemoteAddr());
+ 	        dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
+ 			m.addAttribute("usertype",request.getParameter("usertype") );
+			return "adminpage";
+ 		}
+		return "error";
+	}
+	@RequestMapping(value = "/personaldetails", method = RequestMethod.GET)
+	public String pd(HttpServletRequest request, HttpSession session) 
+	{
+		
+		System.out.println("Entered personaldetails.jsp "+request.getParameter("username")+" "+ request.getParameter("password")+" "+ request.getParameter("usertype"));
+ 		if(dao.checkUser(request.getParameter("username"), request.getParameter("password"),request.getParameter("usertype")))
+ 		{
+ 			UUID uuid = UUID.randomUUID();
+ 			HttpSession hs = request.getSession();
+ 			hs.setAttribute("uname",request.getParameter("username") );
+ 			hs.setAttribute("pass", request.getParameter("password"));
+ 	        String randomKey = uuid.toString().replace("-", "");
+ 	        System.out.println("key in controller..."+randomKey);
+ 	        System.out.println("session id and host address is ..."+session.getId()+" "+request.getRemoteHost());
+ 	        dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
+			return "personaldetails";
+ 		}
+		return "error";
 	}
 
 	// @RequestMapping(value = "/sss", method = RequestMethod.GET)
@@ -39,11 +89,38 @@ public class LMSController {
 	// model.addAttribute("n",n);
 	// return "preview";
 	// }
-	@RequestMapping(value = "/ld", method = RequestMethod.GET)
-	public String sendLoanDetails(Model m) {
+	@RequestMapping(value = "/adminld", method = RequestMethod.GET)
+	public String sendLoanDetails(Un u,Model m,HttpSession session,HttpServletRequest request) {
+		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
+		ArrayList<Users> uu=(ArrayList<Users>)dao.listAll1();
+		int id=0;
+		
+		HttpSession hs1 = request.getSession();
+		hs1.setAttribute("ut", request.getParameter("usertype"));
+		String user=""+hs1.getAttribute("uname");
+		String pass=""+hs1.getAttribute("pass");
+		for(Users uuu:uu) {
+			if(uuu.getUser_name().equals(user) && uuu.getUser_pwd().equals(pass)) {
+				id=uuu.getUser_id();
+			}
+		}
+		m.addAttribute("ld", al);
+		m.addAttribute("un",id);
+		return "loandetails";
+	}
+
+	@RequestMapping(value = "/adminld1", method = RequestMethod.GET)
+	public String sendLoanDetails1(Model m) {
 		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
 		m.addAttribute("ld", al);
-		return "loandetails";
+		return "loandetails1";
+	}
+
+	@RequestMapping(value = "/adminld2", method = RequestMethod.GET)
+	public String sendLoanDetails2(Model m) {
+		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
+		m.addAttribute("ld", al);
+		return "loandetails2";
 	}
 
 	@RequestMapping(value = "/savenew", method = RequestMethod.GET)
@@ -56,10 +133,10 @@ public class LMSController {
 		dao.addC(c);
 		System.out.println(2);
 		l.setLnap_cust_id(c.getCust_id());
-		n.setLnap_id(l.getLnap_id());
-		dao.addLa(l);
-		System.out.println(n.getLnap_id());
-		dao.addN(n);
+		System.out.println(c.getCust_id() + "hii");
+		dao.addLa(l, n);
+
+		System.out.println(l.getLnap_id());
 		System.out.println(4);
 		return "personaldetails";
 	}
@@ -70,5 +147,19 @@ public class LMSController {
 		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
 		mm.addAttribute("ld", al);
 		return "loandetails";
+	}
+
+	@RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
+	public void downloadExcel(HttpServletResponse response) throws IOException {
+		List<LoanApplication> lapp = dao.listAll();
+		Workbook workbook = ExcelClass.generateExcel(lapp);
+
+		// Set the response headers for Excel download
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		response.setHeader("Content-Disposition", "attachment; filename=loan_applicants.xlsx");
+
+		// Write the workbook to the response output stream
+		workbook.write(response.getOutputStream());
+		workbook.close();
 	}
 }

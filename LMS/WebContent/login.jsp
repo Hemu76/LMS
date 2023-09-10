@@ -59,7 +59,7 @@
 </head>
 <body>
     <h2>Login</h2>
-    <form id="loginForm" method="post">
+    <form id="loginForm" method="get">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
@@ -79,15 +79,21 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault(); 
-
-
+            var user=document.getElementById("username").value;
+            var pass=document.getElementById("password").value;
+			
             const userType = document.getElementById('usertype').value;
 
+            
  
             if (userType === 'user') {
-                this.action = 'personaldetails.jsp'; 
+            	
+                this.action = 'personaldetails?username='+user+'&password='+pass; 
+                
             } else if (userType === 'admin') {
-                this.action = 'adminpage.jsp'; 
+            	
+                this.action = 'admin?username='+user+'&password='+pass;
+                
             }
 
      
