@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.models.Customer;
 import com.models.LoanApplicantNominee;
 import com.models.LoanApplication;
+import com.models.UserSession;
 import com.models.Users;
 
 @Component
@@ -50,8 +51,15 @@ public class DAOImp implements DAO {
 	public List<LoanApplication> getAllLoanApplicants() {
 		return em.createQuery("SELECT la FROM LoanApplication la").getResultList();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Users> getAllLogins() {
 		return em.createQuery("SELECT la FROM Users la").getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<UserSession> getAllSessions() {
+		return em.createQuery("SELECT la FROM UserSession la").getResultList();
+	}
+
 }

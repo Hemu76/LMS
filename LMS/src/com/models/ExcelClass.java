@@ -32,18 +32,18 @@ public class ExcelClass {
 		int rowNum = 1;
 		for (LoanApplication applicant : loanApplicants) {
 			Row row = sheet.createRow(rowNum++);
-			row.createCell(0).setCellValue(applicant.getLnap_id());
-			row.createCell(1).setCellValue(applicant.getLnap_cust_id());
-			row.createCell(2).setCellValue(applicant.getLnap_apdate());
-			row.createCell(3).setCellValue(applicant.getLnap_lnty_id().doubleValue());
-			row.createCell(4).setCellValue(applicant.getLnap_amount());
-			row.createCell(5).setCellValue(applicant.getLnap_emi());
-			row.createCell(6).setCellValue(applicant.getLnap_nom_requested());
-			row.createCell(7).setCellValue(applicant.getLnap_cibil_Score());
-			row.createCell(8).setCellValue(applicant.getLnap_status());
-			row.createCell(9).setCellValue(applicant.getLnap_conclusion_remarks());
-			row.createCell(10).setCellValue(applicant.getLnap_processed_user());
-			row.createCell(11).setCellValue(applicant.getLnap_processed_Date());
+			row.createCell(0).setCellValue("hi");
+			row.createCell(1).setCellValue("hi");
+			row.createCell(2).setCellValue("hi");
+			row.createCell(3).setCellValue("hi");
+			row.createCell(4).setCellValue("hi");
+			row.createCell(5).setCellValue("applicant.getLnap_emi()");
+			row.createCell(6).setCellValue("hi");
+			row.createCell(7).setCellValue("hi");
+			row.createCell(8).setCellValue("hi");
+			row.createCell(9).setCellValue("hi");
+			row.createCell(10).setCellValue("hi");
+			row.createCell(11).setCellValue("hi");
 
 		}
 

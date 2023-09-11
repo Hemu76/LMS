@@ -29,7 +29,7 @@ import com.service.AppService;
 public class LMSController {
 
 	AppService dao;
-	
+
 	@Autowired
 	public LMSController(AppService dao) {
 		this.dao = dao;
@@ -40,43 +40,45 @@ public class LMSController {
 
 		return "login";
 	}
+
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String adm(HttpServletRequest request,HttpSession session,Model m) 
-	{
-		
-		System.out.println("Entered adminpage.jsp "+request.getParameter("username")+" "+ request.getParameter("password")+" "+ request.getParameter("usertype"));
- 		if(dao.checkUser(request.getParameter("username"), request.getParameter("password"),request.getParameter("usertype")))
- 		{
- 			HttpSession hs = request.getSession();
- 			hs.setAttribute("uname",request.getParameter("username") );
- 			hs.setAttribute("pass", request.getParameter("password"));
- 			UUID uuid = UUID.randomUUID();
- 	        String randomKey = uuid.toString().replace("-", "");
- 	        System.out.println("key in controller..."+randomKey);
- 	        System.out.println("session id and host address is ..."+session.getId()+" "+request.getRemoteAddr());
- 	        dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
- 			m.addAttribute("usertype",request.getParameter("usertype") );
+	public String adm(HttpServletRequest request, HttpSession session, Model m) {
+
+		System.out.println("Entered adminpage.jsp " + request.getParameter("username") + " "
+				+ request.getParameter("password") + " " + request.getParameter("usertype"));
+		if (dao.checkUser(request.getParameter("username"), request.getParameter("password"),
+				request.getParameter("usertype"))) {
+			HttpSession hs = request.getSession();
+			hs.setAttribute("uname", request.getParameter("username"));
+			hs.setAttribute("pass", request.getParameter("password"));
+			UUID uuid = UUID.randomUUID();
+			String randomKey = uuid.toString().replace("-", "");
+			System.out.println("key in controller..." + randomKey);
+			System.out.println("session id and host address is ..." + session.getId() + " " + request.getRemoteAddr());
+			dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
+			m.addAttribute("usertype", request.getParameter("usertype"));
 			return "adminpage";
- 		}
+		}
 		return "error";
 	}
+
 	@RequestMapping(value = "/personaldetails", method = RequestMethod.GET)
-	public String pd(HttpServletRequest request, HttpSession session) 
-	{
-		
-		System.out.println("Entered personaldetails.jsp "+request.getParameter("username")+" "+ request.getParameter("password")+" "+ request.getParameter("usertype"));
- 		if(dao.checkUser(request.getParameter("username"), request.getParameter("password"),request.getParameter("usertype")))
- 		{
- 			UUID uuid = UUID.randomUUID();
- 			HttpSession hs = request.getSession();
- 			hs.setAttribute("uname",request.getParameter("username") );
- 			hs.setAttribute("pass", request.getParameter("password"));
- 	        String randomKey = uuid.toString().replace("-", "");
- 	        System.out.println("key in controller..."+randomKey);
- 	        System.out.println("session id and host address is ..."+session.getId()+" "+request.getRemoteHost());
- 	        dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
+	public String pd(HttpServletRequest request, HttpSession session) {
+
+		System.out.println("Entered personaldetails.jsp " + request.getParameter("username") + " "
+				+ request.getParameter("password") + " " + request.getParameter("usertype"));
+		if (dao.checkUser(request.getParameter("username"), request.getParameter("password"),
+				request.getParameter("usertype"))) {
+			UUID uuid = UUID.randomUUID();
+			HttpSession hs = request.getSession();
+			hs.setAttribute("uname", request.getParameter("username"));
+			hs.setAttribute("pass", request.getParameter("password"));
+			String randomKey = uuid.toString().replace("-", "");
+			System.out.println("key in controller..." + randomKey);
+			System.out.println("session id and host address is ..." + session.getId() + " " + request.getRemoteHost());
+			dao.sendData(session.getId(), randomKey, request.getRemoteAddr());
 			return "personaldetails";
- 		}
+		}
 		return "error";
 	}
 
@@ -90,28 +92,30 @@ public class LMSController {
 	// return "preview";
 	// }
 	@RequestMapping(value = "/adminld", method = RequestMethod.GET)
-	public String sendLoanDetails(Un u,Model m,HttpSession session,HttpServletRequest request) {
+	public String sendLoanDetails(Un u, Model m, HttpSession session, HttpServletRequest request) {
 		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
-		ArrayList<Users> uu=(ArrayList<Users>)dao.listAll1();
-		int id=0;
-		
+		ArrayList<Users> uu = (ArrayList<Users>) dao.listAll1();
+		int id = 0;
+
 		HttpSession hs1 = request.getSession();
 		hs1.setAttribute("ut", request.getParameter("usertype"));
-		String user=""+hs1.getAttribute("uname");
-		String pass=""+hs1.getAttribute("pass");
-		for(Users uuu:uu) {
-			if(uuu.getUser_name().equals(user) && uuu.getUser_pwd().equals(pass)) {
-				id=uuu.getUser_id();
+		String user = "" + hs1.getAttribute("uname");
+		String pass = "" + hs1.getAttribute("pass");
+		for (Users uuu : uu) {
+			if (uuu.getUser_name().equals(user) && uuu.getUser_pwd().equals(pass)) {
+				id = uuu.getUser_id();
 			}
 		}
 		m.addAttribute("ld", al);
-		m.addAttribute("un",id);
+		m.addAttribute("un", id);
 		return "loandetails";
 	}
 
 	@RequestMapping(value = "/adminld1", method = RequestMethod.GET)
-	public String sendLoanDetails1(Model m) {
+	public String sendLoanDetails1(HttpServletRequest request, Model m) {
 		ArrayList<LoanApplication> al = (ArrayList<LoanApplication>) dao.listAll();
+		HttpSession hs1 = request.getSession();
+		hs1.setAttribute("ut", request.getParameter("usertype"));
 		m.addAttribute("ld", al);
 		return "loandetails1";
 	}

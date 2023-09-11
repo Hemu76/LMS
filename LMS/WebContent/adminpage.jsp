@@ -110,7 +110,7 @@ String ut = ""+request.getParameter("usertype");
 
 <div class="container">
     <div class="dashboard-item">
-        <a href="adminld1">
+        <a href="adminld1?usertype=<%=ut %>">
             <button><h2>Processed Loans</h2></button>
         </a>
         <p>View and manage processed loan applications.</p>
@@ -122,7 +122,7 @@ String ut = ""+request.getParameter("usertype");
         <p>Track loans that are currently in progress.</p>
     </div>
     <div class="dashboard-item">
-        <a href="adminld2">
+        <a href="adminld2?usertype=<%=ut %>">
             <button><h2>Rejected Loans</h2></button>
         </a>
         <p>Review and manage rejected loan applications.</p>
