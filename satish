@@ -1,0 +1,45 @@
+CREATE TABLE insurance_claim (
+    applicationid serial PRIMARY KEY,
+    policy_id int,
+    member_index integer,
+    relation text,
+    joined_date date,
+    patient_name text,
+    date_of_birth date,
+    gender text,
+    contact_number text,
+    address text,
+    disease text,
+    diagnosis text,
+    treatment text,
+    claimAmount double precision
+);
+
+
+CREATE TABLE _Claims (
+    clam_id serial PRIMARY KEY,
+    clam_source CHAR(4) CHECK (clam_source IN ('INDV', 'HSPT')),
+    clam_type CHAR(4) CHECK (clam_type IN ('DRCT', 'REIM')),
+    clam_date DATE,
+    clam_amount_requested NUMERIC,
+    clam_iplc_id INT,
+    clam_processed_amount NUMERIC,
+    clam_processed_date DATE,
+    clam_processed_by INT,
+    clam_remarks VARCHAR(1000),
+    clam_status CHAR(4)
+);
+
+CREATE TABLE ClaimBills (
+    clam_id int,
+    clbl_billindex serial primary key,
+    clbl_document_title VARCHAR(100),
+    clbl_document_path VARCHAR(255),
+	clbl_claim_amount NUMERIC,
+    clbl_processed_amount NUMERIC,
+    clbl_processed_date DATE,
+    clbl_processed_by INT,
+	--FOREIGN KEY (clbl_processed_by) REFERENCES Users(user_id),
+    clbl_remarks VARCHAR(1000),
+    clbl_status CHAR(4)
+);
