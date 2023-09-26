@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Claims Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007acc;
+        }
+
+        .claim-detail {
+            margin-bottom: 20px;
+        }
+
+        .edit-field {
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .edit-button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .save-button {
+            background-color: #28a745;
+        }
+
+        .cancel-button {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <h1>Claims Details</h1>
+
+    <div class="claim-detail">
+        <strong>Claim ID:</strong>
+        <span th:text="${claim.claimId}"></span>
+    </div>
+
+    <div class="claim-detail">
+        <strong>Bill Index:</strong>
+        <span th:text="${claim.billIndex}"></span>
+    </div>
+
+    <div class="claim-detail">
+        <strong>Document Title:</strong>
+        <span th:text="${claim.documentTitle}"></span>
+    </div>
+
+    <div class="claim-detail">
+        <strong>Document Path:</strong>
+        <span th:text="${claim.documentPath}"></span>
+    </div>
+
+    <div class="claim-detail">
+        <strong>Claim Amount:</strong>
+        <span th:text="${claim.claimAmount}"></span>
+    </div>
+
+    <div class="claim-detail">
+        <strong>Processed Amount:</strong>
+        <input type="text" class="edit-field" id="processedAmountInput" th:value="${claim.processedAmount}" />
+    </div>
+
+    <div class="claim-detail">
+        <strong>Processed Date:</strong>
+        <input type="text" class="edit-field" id="processedDateInput" th:value="${claim.processedDate}" />
+    </div>
+
+    <div class="claim-detail">
+        <strong>Processed By:</strong>
+        <input type="text" class="edit-field" id="processedByInput" th:value="${claim.processedBy}" />
+    </div>
+
+    <div class="claim-detail">
+        <strong>Claim Remarks:</strong>
+        <input type="text" class="edit-field" id="remarksInput" th:value="${claim.remarks}" />
+    </div>
+
+    <div class="claim-detail">
+        <strong>Claim Status:</strong>
+        <input type="text" class="edit-field" id="statusInput" th:value="${claim.status}" />
+    </div>
+
+    <div class="claim-detail">
+        <button class="edit-button save-button" onclick="saveFields()">Save</button>
+        <button class="edit-button cancel-button" onclick="cancelEdit()">Cancel</button>
+    </div>
+
+    <form id="claimForm" action="processClaim" method="POST">
+        <input type="hidden" id="clbl_billindex" name="clbl_billindex" th:value="${claim.billIndex}" />
+        <input type="hidden" id="clamRemarks" name="clamRemarks" />
+        <input type="hidden" id="clamStatus" name="clamStatus" />
+    </form>
+
+    <script>
+        function saveFields() {
+            const remarksInput = document.getElementById("remarksInput").value;
+            const statusInput = document.getElementById("statusInput").value;
+            
+            // Construct the URL with query parameters
+            const url = `updateClaimBill?billIndex=${encodeURIComponent(document.getElementById("clbl_billindex").value)}&processedAmount=${encodeURIComponent(document.getElementById("processedAmountInput").value)}&processedDate=${encodeURIComponent(document.getElementById("processedDateInput").value)}&processedBy=${encodeURIComponent(document.getElementById("processedByInput").value)}&remarks=${encodeURIComponent(document.getElementById("remarksInput").value)}&status=${encodeURIComponent(document.getElementById("statusInput").value)}`;
+
+            // Redirect to the URL
+            window.location.href = url;
+        }
+
+        function cancelEdit() {
+            document.querySelectorAll(".edit-field").forEach(field => field.value = "");
+            document.querySelector(".edit-field").style.border = "1px solid #ccc";
+            document.querySelector(".edit-field").readOnly = true;
+            document.querySelectorAll(".edit-button").forEach(button => button.style.display = "none");
+            document.querySelector(".save-button").style.display = "inline-block";
+        }
+    </script>
+</body>
+</html>
