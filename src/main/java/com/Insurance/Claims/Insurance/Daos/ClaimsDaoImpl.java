@@ -2,6 +2,7 @@ package com.Insurance.Claims.Insurance.Daos;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,8 +160,12 @@ public class ClaimsDaoImpl implements ClaimsDao {
 
 	@Override
 	public void updateClaimBill(ClaimBills bill) {
+		String currentDate = LocalDate.now() + "";
+		Date sqlDate = Date.valueOf(currentDate);
+		System.out.println(sqlDate + "   ppp");
 		String query = "update ClaimBills set clbl_processed_amount=?,clbl_processed_date=?,clbl_remarks=?,clbl_status=? where clbl_billindex=?";
-		Object[] values = { bill.getProcessedAmount(), bill.getProcessedDate(), bill.getRemarks(), bill.getStatus() };
+		Object[] values = { bill.getProcessedAmount(), sqlDate, bill.getRemarks(), bill.getStatus(),
+				bill.getBillIndex() };
 		jdbcTemplate.update(query, values);
 
 	}

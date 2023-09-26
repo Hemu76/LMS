@@ -35,13 +35,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HospitalController {
 
 	@Autowired
-	IService irip;
+	IService insuranceService;
 
 	// Get all books
 	@GetMapping(value = "/getAllClaims")
 	public String getAllClaims(Model model) {
 		System.out.println("madh");
-		ArrayList<Claim> li = (ArrayList<Claim>) irip.getAllClaims();
+		ArrayList<Claim> li = (ArrayList<Claim>) insuranceService.getAllClaims();
 		System.out.println(li.size());
 		model.addAttribute("claims", li);
 		return "Claims";
@@ -49,7 +49,7 @@ public class HospitalController {
 
 	@PostMapping(value = "/viewClaim")
 	public String getClaimById(Model model, @RequestParam("clamId") int clamId) {
-		Claim cl = irip.getClaimById(clamId);
+		Claim cl = insuranceService.getClaimById(clamId);
 		model.addAttribute("claim", cl);
 		return "viewclaim";
 	}
@@ -57,7 +57,7 @@ public class HospitalController {
 	@GetMapping(value = "/getFilteredClaims")
 	public String getFilteredClaims(Model model, @RequestParam("status") String status) {
 		System.out.println("madh");
-		ArrayList<Claim> li = (ArrayList<Claim>) irip.getFilteredClaims(status);
+		ArrayList<Claim> li = (ArrayList<Claim>) insuranceService.getFilteredClaims(status);
 		System.out.println(li.size());
 		model.addAttribute("claims", li);
 		return "Claims";
@@ -68,9 +68,9 @@ public class HospitalController {
 			throws IOException {
 		ArrayList<Claim> Claims = new ArrayList<>();
 		if (status == "select") {
-			Claims = (ArrayList<Claim>) irip.getAllClaims();
+			Claims = (ArrayList<Claim>) insuranceService.getAllClaims();
 		} else {
-			Claims = (ArrayList<Claim>) irip.getFilteredClaims(status);
+			Claims = (ArrayList<Claim>) insuranceService.getFilteredClaims(status);
 		}
 		System.out.println(status + "Satish");
 
@@ -128,9 +128,9 @@ public class HospitalController {
 	public String claimData(@RequestParam("file[]") MultipartFile[] files, Claim claim, ClaimApplication application,
 			Model model) {
 
-		irip.addClaimApplication(application);
-		irip.addClaim(claim.getClamIplcId());
-		Claim clm_id = irip.getClaimByid(claim.getClamIplcId());
+		insuranceService.addClaimApplication(application);
+		insuranceService.addClaim(claim.getClamIplcId());
+		Claim clm_id = insuranceService.getClaimByid(claim.getClamIplcId());
 		int cid = clm_id.getClamId();
 		String uploadDir = "src/main/resources/static/file";
 
@@ -150,7 +150,7 @@ public class HospitalController {
 
 				String fullPath = targetLocation.toAbsolutePath().toString();
 
-				irip.addClaimBills(file.getOriginalFilename(), fullPath, cid);
+				insuranceService.addClaimBills(file.getOriginalFilename(), fullPath, cid);
 
 			}
 
@@ -167,7 +167,7 @@ public class HospitalController {
 	// Insurance----------------------------------------------------------------------------
 	@PostMapping(value = "/viewdocs")
 	public String viewDocs(Model model, @RequestParam("clamId") int clamId) {
-		ArrayList<ClaimBills> cl = irip.viewClaimDocsById(clamId);
+		ArrayList<ClaimBills> cl = insuranceService.viewClaimDocsById(clamId);
 		System.out.println(cl.size() + "brooo");
 		model.addAttribute("claim", cl);
 		return "ViewClaimDocuments";
@@ -175,7 +175,7 @@ public class HospitalController {
 
 	@GetMapping(value = "/viewClaims")
 	public String viewAllClaims(Model model) {
-		ArrayList<Claim> li = (ArrayList<Claim>) irip.viewAllClaims();
+		ArrayList<Claim> li = (ArrayList<Claim>) insuranceService.viewAllClaims();
 		System.out.println(li.size());
 		model.addAttribute("claims", li);
 		return "InsuClaims";
@@ -183,7 +183,7 @@ public class HospitalController {
 
 	@PostMapping(value = "/viewInsuClaim")
 	public String viewClaimById(Model model, @RequestParam("clamId") int clamId) {
-		Claim cl = irip.viewClaimById(clamId);
+		Claim cl = insuranceService.viewClaimById(clamId);
 		model.addAttribute("claim", cl);
 		return "viewInsuclaim";
 	}
@@ -191,14 +191,15 @@ public class HospitalController {
 	@PostMapping(value = "/processClaim")
 	public String editClaimById(Model model, @RequestParam("clamId") int clamId,
 			@RequestParam("clamRemarks") String clamRemarks, @RequestParam("clamStatus") String clamStatus) {
-		int n = irip.editClaimById(clamId, clamRemarks, clamStatus);
+		int n = insuranceService.editClaimById(clamId, clamRemarks, clamStatus);
 		System.out.println(clamId + " " + clamRemarks + " " + clamStatus);
 		return "viewInsuclaim";
 	}
 
 	@GetMapping(value = "/docbills")
 	public String viewdocBills(@RequestParam("clbl_billindex") int billIndex, Model model) {
-		ClaimBills li = irip.viewdocBills(billIndex);
+		ClaimBills li = insuranceService.viewdocBills(billIndex);
+		System.out.println(li.getProcessedDate() + "hiiii");
 
 		model.addAttribute("claim", li);
 		return "viewSingleDocs";
@@ -206,7 +207,7 @@ public class HospitalController {
 
 	@GetMapping(value = "/allclaimbills")
 	public String viewClaimBills(@RequestParam("claimid") int id, Model model) {
-		model.addAttribute("claimBills", irip.viewClaimDocsById(id));
+		model.addAttribute("claimBills", insuranceService.viewClaimDocsById(id));
 
 		return "claimbills";
 	}
@@ -214,26 +215,33 @@ public class HospitalController {
 	@GetMapping(value = "/applications")
 	public String getApplications(Model model) {
 
-		model.addAttribute("claimApplications", irip.getAllApplicantions());
+		model.addAttribute("claimApplications", insuranceService.getAllApplicantions());
 		return "applications";
 	}
 
 	@GetMapping(value = "/getClaim")
 	public String getClaim(@RequestParam("policy") int id, Model model) {
 
-		Claim claim = irip.getCliamByPolicy(id);
-		List<CoveredDiseases> ls = irip.getAllDiseasesCovered(id);
-		model.addAttribute("diseases", ls);
-		System.out.println(ls.size() + id);
+		Claim claim = insuranceService.getCliamByPolicy(id);
+
 		model.addAttribute("claim", claim);
 
 		return "viewclaim";
 	}
 
-	@PostMapping(value = "/updateClaimBill")
+	@GetMapping(value = "/getDiseases")
+	public String getCoveredDiseases(@RequestParam("policy") int id, Model model) {
+
+		List<CoveredDiseases> ls = insuranceService.getAllDiseasesCovered(id);
+		model.addAttribute("diseases", ls);
+
+		return "diseasescovered";
+	}
+
+	@GetMapping(value = "/updateClaimBill")
 	public String updateClaimBill(Model model, ClaimBills bill) {
 
-		irip.updateClaimBill(bill);
+		insuranceService.updateClaimBill(bill);
 		return "viewSingleDocs";
 	}
 }

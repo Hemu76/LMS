@@ -70,13 +70,13 @@
     </div>
 
     <div class="claim-detail">
-        <strong>Processed Amount:</strong>
-        <input type="text" class="edit-field" id="processedAmountInput" th:value="${claim.processedAmount}" />
+        <strong>ProcessedDate:</strong>
+        <span th:text="${claim.processedDate}"></span>
     </div>
 
     <div class="claim-detail">
         <strong>Processed Date:</strong>
-        <input type="text" class="edit-field" id="processedDateInput" th:value="${claim.processedDate}" />
+        <input type="t" class="edit-field" id="processedDateInput" th:value="${claim.processedDate}" />
     </div>
 
     <div class="claim-detail">
@@ -106,12 +106,17 @@
     </form>
 
     <script>
+    
+    
+    document.getElementById("processedDateInput").readOnly=true;
+   
+    
         function saveFields() {
             const remarksInput = document.getElementById("remarksInput").value;
             const statusInput = document.getElementById("statusInput").value;
             
             // Construct the URL with query parameters
-            const url = `updateClaimBill?billIndex=${encodeURIComponent(document.getElementById("clbl_billindex").value)}&processedAmount=${encodeURIComponent(document.getElementById("processedAmountInput").value)}&processedDate=${encodeURIComponent(document.getElementById("processedDateInput").value)}&processedBy=${encodeURIComponent(document.getElementById("processedByInput").value)}&remarks=${encodeURIComponent(document.getElementById("remarksInput").value)}&status=${encodeURIComponent(document.getElementById("statusInput").value)}`;
+            const url = `updateClaimBill?billIndex=${encodeURIComponent(document.getElementById("clbl_billindex").value)}&processedAmount=${encodeURIComponent(document.getElementById("processedAmountInput").value)}&processedBy=${encodeURIComponent(document.getElementById("processedByInput").value)}&remarks=${encodeURIComponent(document.getElementById("remarksInput").value)}&status=${encodeURIComponent(document.getElementById("statusInput").value)}`;
 
             // Redirect to the URL
             window.location.href = url;

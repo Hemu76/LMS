@@ -19,7 +19,7 @@ public class ClaimBillsMap implements RowMapper<ClaimBills> {
 		claimBill.setDocumentPath(rs.getString(4));
 		claimBill.setClaimAmount(rs.getBigDecimal(5));
 		claimBill.setProcessedAmount(rs.getBigDecimal(6));
-
+		claimBill.setProcessedDate(rs.getDate(7) + "");
 		claimBill.setProcessedBy(rs.getInt(8));
 		claimBill.setRemarks(rs.getString(9));
 		claimBill.setStatus(rs.getString(10));
